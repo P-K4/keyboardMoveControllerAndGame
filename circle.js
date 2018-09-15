@@ -4,11 +4,11 @@ document.addEventListener("keydown", keyPressed, false);
 document.addEventListener("keyup", keyReleased, false);
 function keyPressed(event){
    alpha[event.keyCode] = true;
-   updateMove();
+   //updateMove();
 }
 function keyReleased(event){
    alpha[event.keyCode] = false;
-   updateMove();
+   //updateMove();
 }
 
 let xCoord = 150;
@@ -35,17 +35,17 @@ function updateMove(){
    if(alpha[65] === true || alpha[68] === true || alpha[83] === true || alpha[87] === true){
       eraseCircle(xCoord, yCoord);
    }
-   else if(alpha[65] === false && alpha[68] === false && alpha[83] === false && alpha[87] === false){
+   /*else if(alpha[65] === false && alpha[68] === false && alpha[83] === false && alpha[87] === false){
       drawCircle(xCoord, yCoord);
-   }
+   }*/
    if(alpha[65] === true){
       if(alpha[83] === true){
-         xCoord -= 1;
-         yCoord += 1;
+         xCoord -= .7;
+         yCoord += .7;
       }
       else if(alpha[87] === true){
-         xCoord -= 1;
-         yCoord -= 1;
+         xCoord -= .7;
+         yCoord -= .7;
       }
       else{
          xCoord -= 1;
@@ -53,12 +53,12 @@ function updateMove(){
    }
    else if(alpha[68] === true){
       if(alpha[83] === true){
-         xCoord += 1;
-         yCoord += 1;
+         xCoord += .7;
+         yCoord += .7;
       }
       else if(alpha[87] === true){
-         xCoord += 1;
-         yCoord -= 1;
+         xCoord += .7;
+         yCoord -= .7;
       }
       else{
          xCoord += 1;
@@ -71,7 +71,7 @@ function updateMove(){
       yCoord -= 1;
    }
    drawCircle(xCoord, yCoord);
-   setTimeout(updateMove, 2000);
+   setTimeout(updateMove, 20);
 }
 updateMove();
 
