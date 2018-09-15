@@ -1,53 +1,79 @@
 //a = 65  d = 68  s = 83  w = 87
-/*
-https://stackoverflow.com/questions/5203407/javascript-multiple-keys-pressed-at-once
-*/ 
-/*stack overflow link demonstrates using an object to register true or false values for keydown events, allows multiple keys to be pushed at once to achieve diagonal movement by checking true/false values of object and adding double true if statements to increment diagonal position movements*/ 
 
-let xCoord = 240;
-let yCoord = 150;
-
-function drawCircle(x,y){
-   let getContext = document.getElementById("myCanvas").getContext("2d");
-   getContext.beginPath();
-   getContext.lineWidth = 2;
-   getContext.strokeStyle = "rgb(0,0,0)";
-   getContext.arc(x,y,30,0,2*Math.PI);
-   getContext.stroke();
+document.addEventListener("keydown", keyPressed, false);
+document.addEventListener("keyup", keyReleased, false);
+function keyPressed(event){
+   alpha[event.keyCode] = true;
+   updateMove();
 }
-function eraseCircle(x,y){
-   let getContext = document.getElementById("myCanvas").getContext("2d");
-   getContext.beginPath();
-   getContext.lineWidth = 5;
-   getContext.strokeStyle = "rgb(256,256,256)";
-   getContext.arc(x,y,30,0,2*Math.PI);
-   getContext.stroke();
+function keyReleased(event){
+   alpha[event.keyCode] = false;
+   updateMove();
 }
 
-window.onkeydown = function (event){
-   switch(event.keyCode){
-      case 65:
-      eraseCircle(xCoord,yCoord);
-      xCoord -= 4;
-      drawCircle(xCoord, yCoord);
-      break;
-      case 68:
-      eraseCircle(xCoord,yCoord);
-      xCoord += 4;
-      drawCircle(xCoord, yCoord);
-      break;
-      case 83:
-      eraseCircle(xCoord,yCoord);
-      yCoord += 4;
-      drawCircle(xCoord, yCoord);
-      break;
-      case 87:
-      eraseCircle(xCoord,yCoord);
-      yCoord -= 4;
-      drawCircle(xCoord, yCoord);
-      break;
+let xCoord = 150;
+let yCoord = 75;
+let alpha = [];
+
+function updateMove(){
+   function drawCircle(x,y){
+      let getContext = document.getElementById("myCanvas").getContext("2d");
+      getContext.beginPath();
+      getContext.lineWidth = 1;
+      getContext.strokeStyle = "rgb(0,0,0)";
+      getContext.arc(x,y,10,0,2*Math.PI);
+      getContext.stroke();
    }
+   function eraseCircle(x,y){
+      let getContext = document.getElementById("myCanvas").getContext("2d");
+      getContext.beginPath();
+      getContext.lineWidth = 3;
+      getContext.strokeStyle = "rgb(256,256,256)";
+      getContext.arc(x,y,10,0,2*Math.PI);
+      getContext.stroke();
+   }
+   if(alpha[65] === true || alpha[68] === true || alpha[83] === true || alpha[87] === true){
+      eraseCircle(xCoord, yCoord);
+   }
+   else if(alpha[65] === false && alpha[68] === false && alpha[83] === false && alpha[87] === false){
+      drawCircle(xCoord, yCoord);
+   }
+   if(alpha[65] === true){
+      if(alpha[83] === true){
+         xCoord -= 1;
+         yCoord += 1;
+      }
+      else if(alpha[87] === true){
+         xCoord -= 1;
+         yCoord -= 1;
+      }
+      else{
+         xCoord -= 1;
+      }
+   }
+   else if(alpha[68] === true){
+      if(alpha[83] === true){
+         xCoord += 1;
+         yCoord += 1;
+      }
+      else if(alpha[87] === true){
+         xCoord += 1;
+         yCoord -= 1;
+      }
+      else{
+         xCoord += 1;
+      }
+   }
+   else if(alpha[83] === true){
+      yCoord += 1;
+   }
+   else if(alpha[87] === true){
+      yCoord -= 1;
+   }
+   drawCircle(xCoord, yCoord);
+   setTimeout(updateMove, 2000);
 }
+updateMove();
 
-drawCircle(xCoord, yCoord);
+//drawCircle(xCoord, yCoord);
 
